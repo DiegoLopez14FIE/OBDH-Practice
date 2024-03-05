@@ -61,7 +61,7 @@ bool_t PUSService1::IsSourceIDValid(CDTCHandler &tcHandler) {
 
 void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 
-
+	// código para aceptar telecomandos
 	TTCAcceptationStatus acceptationStatus = TCAcceptationOK;
 
 	if (!IsCRCValid(tcHandler)) {
@@ -83,17 +83,17 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 
 		switch (type) {
 		//TODO TC Acceptance and TC Classification
-//		case (9):
-//
-//			switch (subtype) {
-//
-//			case (129):
-//				tcHandler.SetExecCtrlAsPrioTC();
-//				break;
-//			default:
-//				acceptationStatus = TCAcceptationSubTypeError;
-//			}
-//			break;
+		case (9):
+
+			switch (subtype) {
+
+			case (129):
+			tcHandler.SetExecCtrlAsPrioTC();		// SE EJECUTA COMO UN TC
+				break;
+			default:
+				acceptationStatus = TCAcceptationSubTypeError;
+			}
+			break;
 		case (17):
 			switch (subtype) {
 			case (1):
