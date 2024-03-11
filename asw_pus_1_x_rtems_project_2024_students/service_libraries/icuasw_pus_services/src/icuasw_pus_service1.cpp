@@ -82,18 +82,19 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 		uint8_t subtype = tcHandler.GetSubType();
 
 		switch (type) {
-		//TODO TC Acceptance and TC Classification
-//		case (9):
-//
-//			switch (subtype) {
-//
-//			case (129):
-//				tcHandler.SetExecCtrlAsPrioTC();
-//				break;
-//			default:
-//				acceptationStatus = TCAcceptationSubTypeError;
-//			}
-//			break;
+		// TODO TC Acceptance and TC Classification
+		// hay que determinar dónde se ejecuta cada TC (17,1) (9,129) ver guarda EDROOM
+		case (9):
+			switch (subtype) {
+
+			case (129):
+				tcHandler.SetExecCtrlAsPrioTC();		// MÉTODO QUE TIENE EL HANDLER DEL TC PARA SER EJECUTADO COMO PRIORITARIO
+				break;
+			default:
+				acceptationStatus = TCAcceptationSubTypeError;
+			}
+			break;
+
 		case (17):
 			switch (subtype) {
 			case (1):

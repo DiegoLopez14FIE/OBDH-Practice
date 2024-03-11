@@ -71,7 +71,8 @@ void EmuGSS_SendProgrammedTCs() {
 		printf("\n");
 
 //TODO Signal EDP RxTC IRQ vector (18) Bottom Half
-		//CCEPDManager::EDROOMEventIRQ18.SignalFromTask();
+		// Se inyectan TCs para que lo vea El BH y lo enrute al componente
+		CCEPDManager::EDROOMEventIRQ18.SignalFromTask();
 
 		Pr_DelayIn(Pr_Time(0, 20000));
 
