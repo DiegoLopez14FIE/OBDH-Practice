@@ -1,6 +1,6 @@
 
 
-#include <public/icuasw_iface_v1.h>
+#include <public/cchk_fdir_iface_v1.h>
 
 
 
@@ -10,7 +10,7 @@
 
 
 
-ICUASW::ICUASW(TEDROOMComponentID id,
+CCHK_FDIR::CCHK_FDIR(TEDROOMComponentID id,
 		TEDROOMUInt32 roomNumMaxMens,
 		TEDROOMPriority roomtaskPrio,
 		TEDROOMStackSizeType roomStack,
@@ -18,14 +18,6 @@ ICUASW::ICUASW(TEDROOMComponentID id,
 
 		CEDROOMComponent(id,EDROOMprioMINIMUM+1,roomNumMaxMens,
 				roomtaskPrio,roomStack, pActorMemory ),
-
-		// *********** Timing service access point *********
-
-		EDROOMtimingSAP(this, 3,&pActorMemory->TimingMemory),
-
-		// *******************  Timers  ********************
-
-		Timer(&EDROOMtimingSAP, 2 ),
 
 		// ***************	Top State  *****************
 
@@ -46,7 +38,7 @@ ICUASW::ICUASW(TEDROOMComponentID id,
 //************************** EDROOMConfig **********************************
 
 
-int ICUASW::EDROOMConfig()
+int CCHK_FDIR::EDROOMConfig()
 {
 
 
@@ -57,13 +49,9 @@ int ICUASW::EDROOMConfig()
 
 //************************** EDROOMStart **********************************
 
-int ICUASW::EDROOMStart()
+int CCHK_FDIR::EDROOMStart()
 {
 
-
-	//****************** Timing Task Start*****************
-
-	EDROOMtimingSAP.Start();
 
 	//***************** CEDROOMComponent::EDROOMStart*********
 
@@ -82,7 +70,7 @@ int ICUASW::EDROOMStart()
 
 
 
-void ICUASW::EDROOMBehaviour()
+void CCHK_FDIR::EDROOMBehaviour()
 {
 
 	edroomTopState.EDROOMInit();
@@ -98,11 +86,11 @@ void ICUASW::EDROOMBehaviour()
 
 #ifdef _EDROOM_SYSTEM_CLOSE
 
-bool ICUASW::EDROOMIsComponentFinished()
+bool CCHK_FDIR::EDROOMIsComponentFinished()
 {
 
 
-	return ( EPDManager.EDROOMIsComponentFinished() && TM_ChannelCtrl.EDROOMIsComponentFinished() && HK_FDIR.EDROOMIsComponentFinished() && CEDROOMComponent::EDROOMIsComponentFinished());
+	return ( CEDROOMComponent::EDROOMIsComponentFinished());
 
 }
 
@@ -111,7 +99,7 @@ bool ICUASW::EDROOMIsComponentFinished()
 
 //****************** EDROOMMemory::SetMemory *******************************
 
-void ICUASW::CEDROOMMemory::SetMemory(TEDROOMUInt32 numMessages_ ,
+void CCHK_FDIR::CEDROOMMemory::SetMemory(TEDROOMUInt32 numMessages_ ,
 		CEDROOMMessage * MessagesMem_,
 		bool * MessagesMemMarks_,
 		TEDROOMUInt32 numberOfNodes_,
@@ -121,8 +109,6 @@ void ICUASW::CEDROOMMemory::SetMemory(TEDROOMUInt32 numMessages_ ,
 
 		CEDROOMComponentMemory::SetMemory( numMessages_,MessagesMem_, MessagesMemMarks_,
 			numberOfNodes_,QueueNodesMem_, QueueNodesMemMarks_, QueueHeads);
-
-		TimingMemory.SetMemory(3,TimerInf,&TimerInfMarks[0],TimeOutMsgs,&TimeOutMsgsMarks[0]);
 
 
 }

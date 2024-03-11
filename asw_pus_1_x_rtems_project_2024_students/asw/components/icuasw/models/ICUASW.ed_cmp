@@ -1,0 +1,233 @@
+import "../../../dataclasses/Pr_Time/models/Pr_Time.ed_dclass";
+import "../../../protocols/EDROOMTimingSAP/models/EDROOMTimingSAP.ed_prot";
+import "../../../protocols/EDROOMServiceLibrary/models/EDROOMServiceLibrary.ed_prot";
+import "../../../components/ccepdmanager/models/CCEPDManager.ed_cmp";
+import "../../../components/cctm_channelctrl/models/CCTM_ChannelCtrl.ed_cmp";
+import "../../../components/cchk_fdir/models/CCHK_FDIR.ed_cmp";
+import "../../../sais/emu_sc_channel_drv_v1/models/emu_sc_channel_drv_v1.ed_sai";
+import "../../../sais/icuasw_pus_services_iface_v1/models/icuasw_pus_services_iface_v1.ed_sai";
+import "../../../sais/sc_channel_drv_v1/models/sc_channel_drv_v1.ed_sai";
+import "../../../sais/emu_hw_timecode_drv_v1/models/emu_hw_timecode_drv_v1.ed_sai";
+import "../../../sais/emu_gss_v1/models/emu_gss_v1.ed_sai";
+
+
+
+/**
+ * \class   ICUASW
+ *
+ */
+
+
+no_pattern component ICUASW{
+
+	uri := es.uah.aut.srg.edroom.mclev.cmp.ICUASW;
+	version := v1;
+	stack_size := 8192;
+	def_max_nb_messages := 10;
+	requires := emu_sc_channel_drv(v1),
+			icuasw_pus_services_iface(v1),
+			sc_channel_drv(v1),
+			emu_hw_timecode_drv(v1),
+			emu_gss(v1);
+
+
+
+
+	structure {
+
+		ports {
+
+
+			system port EDROOMsl
+			{
+				id:= 0;
+				protocol:= EDROOMServiceLibrary(v1);
+			};
+			timing port Timer {
+				id := 1;
+				protocol := EDROOMTimingSAP(v1);
+
+			};
+
+
+
+		};
+
+
+		instances {
+
+
+			instance EPDManager
+			{
+				class := CCEPDManager(v1);
+				max_nb_messages := 11;
+				priority :=2;
+			};
+			instance TM_ChannelCtrl
+			{
+				class := CCTM_ChannelCtrl(v1);
+				max_nb_messages := 10;
+				priority :=1;
+			};
+			instance HK_FDIR
+			{
+				class := CCHK_FDIR(v1);
+				max_nb_messages := 10;
+				priority :=3;
+			};
+		};
+
+
+		connections {
+			connection EPDManager.TMChannelCtrl<->TM_ChannelCtrl.TMChannelCtrl;
+		};
+
+
+	};
+
+
+	behaviour {
+
+		contexts {
+
+
+			context Top_0{
+
+
+				id := 0;
+
+
+				variables {
+					variable VEmuTimeCode{
+					 class := Pr_Time(v1);
+
+					 constructor := "";
+					 dimension := 0;
+					};
+
+
+				};
+
+
+				states {
+					state I{
+						id := 0;
+					};
+					state Ready{
+						id := 1;
+
+						entry actions := FProgTimer;
+					};
+				};
+
+
+				init state := I;
+
+
+				items{
+					/**
+					 * \brief  
+					 */
+
+					action FEmuPassSecond {
+						<code>
+						 
+						EmuHwTimeCodePassSecond();
+						EmuGSS_PassSecond();
+						 
+							
+
+
+						</code>
+
+					};
+
+					/**
+					 * \brief  
+					 */
+
+					action FInit {
+						<code>
+						EmuGSS_PassSecond();
+
+
+						</code>
+
+					};
+
+					/**
+					 * \brief  
+					 */
+
+					inform at FProgTimer {
+						code {
+							<code>
+								 
+								//Timing Service useful methods
+								
+							  VEmuTimeCode+=Pr_Time(1,0);
+							 
+							  time=VEmuTimeCode;
+
+
+							</code>
+						};
+
+						port :=Timer;
+
+						priority :=3;
+
+					};
+
+
+				};
+
+
+				transitions{
+
+					transition Init{
+						id := 0;
+						source := I;
+						sink := Ready;
+
+
+						actions := FInit;
+
+
+						asynchronous trigger {
+							port := EDROOMsl;
+							message := EDROOMServiceLibrary(v1)::EDROOMStart;
+						};
+					};
+
+					transition NextTimeCode{
+						id := 1;
+						source := Ready;
+						sink := Ready;
+
+
+						actions := FEmuPassSecond;
+
+
+						asynchronous trigger {
+							port := Timer;
+							message := EDROOMTimingSAP(v1)::EDROOMSignalTimeout;
+						};
+					};
+
+
+				};
+
+
+			};
+
+
+		};
+
+		top context := Top_0;
+
+
+	};
+
+
+};
