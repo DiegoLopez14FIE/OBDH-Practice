@@ -12,7 +12,7 @@
 
 
 #define FT_SOLO_EPD_ICU_SERV_17_0010
-#define FT_SOLO_EPD_ICU_SERV_9_0020		// Cambia el tiempo de abordo
+#define FT_SOLO_EPD_ICU_SERV_9_0020
 
 
 //TODO
@@ -22,11 +22,8 @@
 
 #ifdef FT_SOLO_EPD_ICU_SERV_17_0010
 
-
-// Inyecto TCs del tipo (17,1)
-
 EmuGSS_TCProgram17_1 prog_FT_0010_step_0(UNITIME_AFTER_POWER_ON + 6,
-					"FT_SOLO_EPD_ICU_SERV_17_0010 step 0, Connection Test");	// (Tiempo de liberación del TC, mensaje que aparece en la anulación del GSS
+					"FT_SOLO_EPD_ICU_SERV_17_0010 step 0, Connection Test");
 
 
 #endif
@@ -42,7 +39,7 @@ EmuGSS_TCProgram9_129 prog_FT_0020_step_0(UNITIME_AFTER_POWER_ON + 10 ,
 
 
 #endif
-
+/*
 #ifdef FT_SOLO_EPD_ICU_SERV_1_REJECTED_TC_0030
 
 
@@ -52,5 +49,5 @@ EmuGSS_TCProgram17_3 prog_FT_0030_step_0(FT_SOLO_EPD_ICU_SERV_1_0030_TIME,
 		"FT_SOLO_EPD_ICU_SERV_1_0030 step 0, Rejected TC",0xFF);
 
 #endif
-
+*/
 
