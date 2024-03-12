@@ -27,7 +27,8 @@ private:
 
 #include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service1.h"
 //TODO include icuasw_pus_service3.h
-//#include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service3.h"
+// DAMOS DE ALTA EL SERVICIO 3
+#include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service3.h"
 #include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service9.h"
 #include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service17.h"
 

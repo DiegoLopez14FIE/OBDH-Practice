@@ -44,8 +44,16 @@ void PUS_HK_FDIR_TCExecutor::ExecTC(CDTCHandler &tc_handler, CDTMList &tm_list,
 
 		switch (tc_handler.GetType()) {
 				   //TODO Exec Service 3 Telecommands
-
-					default: //This must be an event
+			case (5):
+					PUSService3::ExecTC(tc_handler, tm_list);
+				break;
+			case (6):
+					PUSService3::ExecTC(tc_handler,tm_list);
+				break;
+			case (31):
+					PUSService3::ExecTC(tc_handler,tm_list);
+				break;
+			default: //This must be an event
 						break;
 		}
 		tc_handler.FreeTCDescriptor();
