@@ -16,7 +16,10 @@ typedef uint16_t sysdatapool_element_t;
 
 class SystemDataPool{
 
-public:
+	friend class PUSService3;
+	friend class PUSService20;
+
+private:
 
 	static sysdatapool_element_t sParamCurrentValue[DATAPOOL_PARAMNumber];
 
@@ -25,10 +28,10 @@ public:
 
 
 #include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service1.h"
-//TODO Add PUS Services 9 and 17 header files DAMOS DE ALTA LOS SERVICIOS
-#include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service9.h"
+#include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service3.h"
 #include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service9.h"
 #include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service17.h"
+#include "../../../icuasw_pus_services/include/icuasw_pus_services/icuasw_pus_service20.h"
 
 
 class PUSPrioTCExecutor {
@@ -38,6 +41,21 @@ public:
 			CDEventList &eventList);
 };
 
+class PUS_HK_FDIR_TCExecutor {
+
+public:
+	static void ExecTC(CDTCHandler &tc_handler, CDTMList &tm_list,
+			CDEventList &eventList);
+};
+
+class PUS_BKGTCExecutor{
+
+public:
+
+	static void ExecTC(CDTCHandler &tc_handler, CDTMList &tm_list,
+			CDEventList &eventList);
+
+};
 
 /*PROTECTED REGION END*/
 
