@@ -31,6 +31,7 @@
   * 3 for a valid medium Severity Anomaly,4 for a valid high Severity Anomaly
   * 4 if is not a valid RID identifier
   */
+
 enum TRIDType {
 	RIDTypeInformative=0, RIDTypeLowSevAnomaly=1,RIDTypeMediumSevAnomaly=2
 	,RIDTypeHighSevAnomaly=3,RIDNotValid=4

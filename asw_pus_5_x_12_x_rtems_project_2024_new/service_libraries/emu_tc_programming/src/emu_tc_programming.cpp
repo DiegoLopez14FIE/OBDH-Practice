@@ -105,21 +105,63 @@ EmuGSS_TCProgram20_1 prog_FT_0060_step_1(FT_SOLO_EPD_ICU_SERV_20_0060_TIME_step1
 #define FT_0070_TIME_step4 (UNITIME_AFTER_POWER_ON + 60)
 
 
+// Programo monitoriazación para que no supere los límites 1 y 10
+// Si está por debajo de 1 0x4000 y si supera a 10 0x4001
+// Cada 5 uds de tiempo y para el monitor 0
 EmuGSS_TCProgram12_5 prog_FT_0070_step_0(FT_0070_TIME_step0,
 		"FT_SOLO_EPD_ICU_Monitoring_0070 step 0, Config PMODID 0 for monitoring PID 1",
-		0, 1, 5, 1, 0x4000, 10, 0x4001);
+		0, 1, 5, 1, 0x4000, 10, 0x4001);		// Formato TC(12,5)
 
+// Habilito la monitorización 0
 EmuGSS_TCProgram12_1 prog_FT_0070_step_1(FT_0070_TIME_step1,
 		"FT_SOLO_EPD_ICU_Monitoring_0070 step 1, Enable Monitoring PMODID 0", 0);
 
+// Pongo a 99 el identificador 1, saltará TM[5,4], debemos volver a estar dentro
+// del rango para que vuelva a reportar
+EmuGSS_TCProgram20_3 prog_FT_0070_step_2(FT_0070_TIME_step2,
+		"FT_SOLO_EPD_ICU_Monitoring_0070 step 2, Update PID 1 to 99", 1, 99);
+// Vuelvo a meterlo en el rango
+EmuGSS_TCProgram20_3 prog_FT_0070_step_3(FT_0070_TIME_step3,
+		"FT_SOLO_EPD_ICU_Monitoring_0070 step 3, Update PID 1 to 5", 1, 5);
+// Vuelvo a meter un valor que está fuera del límite
+// Se deben reportar los dos eventos
+EmuGSS_TCProgram20_3 prog_FT_0070_step_4(FT_0070_TIME_step4,
+		"FT_SOLO_EPD_ICU_Monitoring_0070 step 4, Update PID 1 to 0", 1, 0);
+
+#ifdef FT_SOLO_EPD_ICU_Monitoring_0080
+
+// Deshabilitar, ver que no se reporta, volver a habilitar y ver que se reporta
+
+// Programo monitoriazación para que no supere los límites 1 y 10
+// Si está por debajo de 1 0x4000 y si supera a 10 0x4001
+// Cada 5 uds de tiempo y para el monitor 0
+EmuGSS_TCProgram12_5 prog_FT_0070_step_0(FT_0070_TIME_step0,
+		"FT_SOLO_EPD_ICU_Monitoring_0070 step 0, Config PMODID 0 for monitoring PID 1",
+		0, 1, 5, 1, 0x4000, 10, 0x4001);		// Formato TC(12,5)
+
+
+// Habilito la monitorización 0
+EmuGSS_TCProgram12_1 prog_FT_0070_step_1(FT_0070_TIME_step1,
+		"FT_SOLO_EPD_ICU_Monitoring_0070 step 1, Enable Monitoring PMODID 0", 0);
+
+// Pongo a 99 el identificador 1, saltará TM[5,4], debemos volver a estar dentro
+// del rango para que vuelva a reportar
 EmuGSS_TCProgram20_3 prog_FT_0070_step_2(FT_0070_TIME_step2,
 		"FT_SOLO_EPD_ICU_Monitoring_0070 step 2, Update PID 1 to 99", 1, 99);
 
-EmuGSS_TCProgram20_3 prog_FT_0070_step_3(FT_0070_TIME_step3,
-		"FT_SOLO_EPD_ICU_Monitoring_0070 step 3, Update PID 1 to 5", 1, 5);
+// DESHABILITO TC[5,6]
 
-EmuGSS_TCProgram20_3 prog_FT_0070_step_4(FT_0070_TIME_step4,
-		"FT_SOLO_EPD_ICU_Monitoring_0070 step 4, Update PID 1 to 0", 1, 0);
+// CAMBIO EL VALOR ( QUE ESTÉ FUERA DE RANGO, AUNQUE ESTÉ A 99 NO REPORTA)
+
+// VEO QUE NO SE REPORTA
+
+// TC[5,5]
+
+// CAMBIO VALORES Y VEO QUE ESTA VEZ SÍ SE REPORTA
+
+
+
+
 
 #endif
 

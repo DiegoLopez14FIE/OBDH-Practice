@@ -33,6 +33,12 @@ asw/dataclasses/CDTCHandler/src \
 asw/dataclasses/CDTMHandler/src \
 asw/dataclasses/CDTMList/src \
 asw/edroom_glue/src \
+components/ccbkgtcexec/src \
+components/ccepdmanager/src \
+components/cchk_fdirmng/src \
+components/cctm_channelctrl/src \
+components/icuasw/src \
+edroom_glue/src \
 . \
 llsw/emu_gss/src \
 llsw/emu_hw_timecode_drv/src \

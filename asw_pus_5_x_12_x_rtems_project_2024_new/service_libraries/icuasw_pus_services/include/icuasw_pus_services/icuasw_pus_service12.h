@@ -15,6 +15,7 @@ enum CheckStatus_t{
   ,MonitorWithinLimits
 };
 
+// Configuration Monitoring (disponemos de 8 monitorizaciones como máximo)
 struct ParamMonitoringConfig_t{
   CheckStatus_t  prevstatus;
   CheckStatus_t  status;
@@ -25,6 +26,7 @@ struct ParamMonitoringConfig_t{
   uint8_t intervalControl;
 };
 
+// Monitoring definition
 struct ParamLimitCheckDefinition_t{
   uint16_t highLimitRID;
   uint64_t highLimit;

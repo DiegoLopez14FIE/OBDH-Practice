@@ -43,6 +43,8 @@ void PUS_HK_FDIR_TCExecutor::ExecTC(CDTCHandler &tc_handler, CDTMList &tm_list,
 		tc_handler.StartUpExecution();
 
 		switch (tc_handler.GetType()) {
+					// HK Y FDIR
+
 					case (3):
 						PUSService3::ExecTC(tc_handler, tm_list);
 						break;
@@ -53,6 +55,8 @@ void PUS_HK_FDIR_TCExecutor::ExecTC(CDTCHandler &tc_handler, CDTMList &tm_list,
 						PUSService12::ExecTC(tc_handler, tm_list);
 						break;
 					default: //This must be an event
+
+						// FALTARÍA AÑADIR EL 19 PARA COMPLETAR EL 19
 						break;
 		}
 		tc_handler.FreeTCDescriptor();

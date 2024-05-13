@@ -7,6 +7,7 @@
 
 #include <public/icuasw_pus_services_iface_v1.h>
 
+
 //Enable Config, the events defined are enabled by default
 uint32_t PUSService5::RIDEnableConfig[4] = { 0x00000007, 0x0000000F, 0x00000000,
 		0x0000FFFF };
@@ -97,10 +98,11 @@ bool PUSService5::IsRIDEnabled(uint16_t RID) {
 
 	index = GetRIDEnableConfigIndex(RID);
 
-	offset = GetRIDEnableConfigOffset(RID);
+	offset = GetRIDEnableConfigOffset(RID);		// Qué offset dentro de la palabra de 32 bits del array
 
 	if (IsIndexValid(index)) {
-
+		// Array de 4 elementos, me dice cuál es
+		// Analizamos si el bit es 1 o no
 		if ((RIDEnableConfig[index] >> offset) & 0x01)
 			enabled = true;
 
@@ -149,10 +151,12 @@ void PUSService5::Exec5_5TC(CDTCHandler &tcHandler, CDTMList &tmList) {
 
 	//TODO use GetRIDEnableConfigIndex and GetRIDEnableConfigOffset
 	//for set the bit of the array that enables the RID
+	index = GetRIDEnableConfigIndex(RID);
+	offset = GetRIDEnableConfigOffset(RID);
 
 	if (IsIndexValid(index)) {
 
-
+		RIDEnableConfig[index] |= (0x01 << offset);
 
 		PUSService1::BuildTM_1_7(tcHandler, tmList);
 
@@ -174,32 +178,39 @@ void PUSService5::Exec5_6TC(CDTCHandler &tcHandler, CDTMList &tmList) {
 
 	//TODO use GetRIDEnableConfigIndex and GetRIDEnableConfigOffset
 
+	RID = tcHandler.GetNextUInt16();
 
+	index = GetRIDEnableConfigIndex(RID);	// Índice del array
+	offset = GetRIDEnableConfigOffset(RID); // Offset del array
 
+	if (IsIndexValid(index)) {
 
+		RIDEnableConfig[index] &= ~(0x01 << offset);
 
+		PUSService1::BuildTM_1_7(tcHandler, tmList);
 
+	} else {
 
-
+		PUSService1::BuildTM_1_8_TC_5_X_RIDUnknown(tcHandler, tmList, RID);
 
 
 
 }
 
-void PUSService5::ExecTC(CDTCHandler &tcHandler, CDTMList &tmList) {
+void PUSService5::ExecTC(CDTCHandler &tcHandler, CDTMList &tmList){
 
-	switch (tcHandler.GetSubType()) {
+		switch (tcHandler.GetSubType()) {
 
-	case (5):
+		case (5):
+			Exec5_5TC(tcHandler, tmList);
+			break;
 
-		Exec5_5TC(tcHandler, tmList);
-		break;
-	//TODO Complete for enable [5,6] Execution
+		case (6):
 
-
-	default:
-		//This must be not possible
-		break;
+			Exec5_6TC(tcHandler, tmList);
+			break;
+		default:
+			//This must be not possible
+			break;
+		}
 	}
-}
-
