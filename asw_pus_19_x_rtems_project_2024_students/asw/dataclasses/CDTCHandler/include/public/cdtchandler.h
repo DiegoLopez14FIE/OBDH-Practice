@@ -35,8 +35,7 @@ class CDTCHandler {
 	friend class PUSPrioTCExecutor;
 	friend class PUS_HK_FDIR_TCExecutor;
 	friend class PUS_BKGTCExecutor;
-	friend class CDEvAction;
-
+	friend class EvAction;
 	friend void SC_Channel_GetNextTC(CDTCHandler *tc);
 
 protected:
