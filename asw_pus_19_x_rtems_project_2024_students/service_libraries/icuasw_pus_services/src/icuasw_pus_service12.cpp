@@ -11,9 +11,6 @@
 ParamMonitoringConfig_t PUSService12::PARAMMonitoringConfig[MAX_Number_PMON_IDs] =
 		{
 
-	    // Disponemos de 8 monotorizaciones, no seleccionadas (libres)
-		// Prev Status, Status, TRansitio_ Y2K , enabled, PID, interval, Interval ctrl
-
 		{ MonitorUnselected, MonitorUnselected, 0, false, 0, 1, 0 }, {
 				MonitorUnselected, MonitorUnselected, 0, false, 0, 1, 0 }, {
 				MonitorUnselected, MonitorUnselected, 0, false, 0, 1, 0 }, {
@@ -25,7 +22,6 @@ ParamMonitoringConfig_t PUSService12::PARAMMonitoringConfig[MAX_Number_PMON_IDs]
 
 		};
 
-// Monitoring definition (highLimit RID, hifhLImit, lowLImitRID, lowLimit
 ParamLimitCheckDefinition_t PUSService12::PARAMLimitDefinition[MAX_Number_PMON_IDs] =
 		{
 
